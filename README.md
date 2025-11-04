@@ -139,60 +139,6 @@
   - 所有多模态 Embedding 统一映射到 32 维
   - 使用独立的 `nn.Linear` 层
 
----
-
-## 快速开始
-
-### 环境要求
-```bash
-torch>=2.0
-transformers
-bitsandbytes
-tensorboard
-numpy
-tqdm
-```
-
-### 训练命令
-```bash
-python main.py \
-  --batch_size 1024 \
-  --grad_accum_steps 2 \
-  --lr 0.0015 \
-  --weight_decay 0.01 \
-  --warmup_ratio 0.01 \
-  --clip_norm 2.5 \
-  --maxlen 101 \
-  --hidden_units 512 \
-  --num_blocks 48 \
-  --num_heads 16 \
-  --linear_dim 64 \
-  --attention_dim 64 \
-  --dropout_rate 0.2 \
-  --l2_emb 0.0001 \
-  --num_epochs 8 \
-  --grad_checkpoint \
-  --ckpt_every 1 \
-  --neg_cache_steps 5 \
-  --margin_click 0.02 \
-  --margin_conv 0.02 \
-  --use_rope \
-  --rope_theta 10000.0 \
-  --rope_partial_dim 32 \
-  --load_time_intervals \
-  --mm_emb_id 81 \
-  --device cuda
-```
-
-### 断点续训
-```bash
-python main.py \
-  --state_dict_path /path/to/checkpoint/model.pt \
-  [其他参数同上]
-```
-
----
-
 ## 参数说明
 
 | 参数 | 默认值 | 说明 |
@@ -269,13 +215,7 @@ weights = (1 - a) + 2*a * (rank / N)  # a=0.8
 loss = (loss_vec * weights).sum() / weights.sum()
 ```
 
-### 3. 负样本分桶采样
-```python
-# 按曝光数分桶（6 个桶）
-buckets = [≤3, ≤9, ≤54, ≤100, ≤1000, >1000]
-weights = [0.251, 0.265, 0.274, 0.068, 0.113, 0.029]
-# 采样时优先从低曝光桶抽取
-```
+
 
 ---
 
